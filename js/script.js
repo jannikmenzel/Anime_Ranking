@@ -9,62 +9,37 @@ let videos = [
     "jf1jnJGNYfs", "04WuoQMhhxw"
 ];
 
-// Funktion, um eine zufällige Reihenfolge zu erzeugen und zu speichern
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
-// Prüfen, ob bereits eine Reihenfolge im localStorage gespeichert ist
-if (!localStorage.getItem("videoOrder")) {
-    // Wenn nicht, zufällig mischen und speichern
-    shuffleArray(videos);
-    localStorage.setItem("videoOrder", JSON.stringify(videos));  // Reihenfolge im localStorage speichern
-} else {
-    // Wenn ja, aus dem localStorage laden
-    videos = JSON.parse(localStorage.getItem("videoOrder"));
-}
-
-let index = 0; // Startindex für den Vergleich
-
-function getNextPair() {
+function getRandomPair() {
     if (videos.length === 1) {
         document.getElementById("video-container").innerHTML = `
-            <h2>Champion:</h2>
-            <iframe width='560' height='315' src='https://www.youtube.com/embed/${videos[0]}' frameborder='0' allowfullscreen></iframe>
-        `;
+                    <h2>Champion:</h2>
+                    <iframe width='560' height='315' src='https://www.youtube.com/embed/${videos[0]}' frameborder='0' allowfullscreen></iframe>
+                `;
         return;
     }
 
-    if (index >= videos.length - 1) {
-        index = 0; // Starte von vorne, falls das Ende erreicht ist
-    }
-
-    let video1 = videos[index];
-    let video2 = videos[index + 1];
-
+    let shuffled = videos.sort(() => 0.5 - Math.random());
+    let [video1, video2] = shuffled.slice(0, 2);
     displayVideos(video1, video2);
 }
 
 function displayVideos(video1, video2) {
     document.getElementById("video-container").innerHTML = `
-        <div class='row'>
-            <div class='col-md-6 text-center'>
-                <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video1}' frameborder='0' allowfullscreen></iframe>
-                <button class='btn btn-success mt-2' onclick='vote("${video1}", "${video2}")'>Vote</button>
-            </div>
-            <div class='col-md-6 text-center'>
-                <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video2}' frameborder='0' allowfullscreen></iframe>
-                <button class='btn btn-success mt-2' onclick='vote("${video2}", "${video1}")'>Vote</button>
-            </div>
-        </div>`;
+                <div class='row'>
+                    <div class='col-md-6 text-center'>
+                        <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video1}' frameborder='0' allowfullscreen></iframe>
+                        <button class='btn btn-success mt-2' onclick='vote("${video1}", "${video2}")'>Vote</button>
+                    </div>
+                    <div class='col-md-6 text-center'>
+                        <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video2}' frameborder='0' allowfullscreen></iframe>
+                        <button class='btn btn-success mt-2' onclick='vote("${video2}", "${video1}")'>Vote</button>
+                    </div>
+                </div>`;
 }
 
 function vote(winner, loser) {
     videos = videos.filter(video => video !== loser);
-    getNextPair();
+    getRandomPair();
 }
 
-window.onload = getNextPair;
+window.onload = getRandomPair;
