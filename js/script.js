@@ -13,7 +13,7 @@ function getRandomPair() {
     if (videos.length === 1) {
         document.getElementById("video-container").innerHTML = `
                     <h2>Champion:</h2>
-                    <iframe width='560' height='315' src='https://www.youtube.com/embed/${videos[0]}' frameborder='0' allowfullscreen></iframe>
+                    <iframe width='560' height='315' src='https://www.youtube.com/embed/${videos[0]}' allowfullscreen></iframe>
                 `;
         return;
     }
@@ -27,11 +27,11 @@ function displayVideos(video1, video2) {
     document.getElementById("video-container").innerHTML = `
                 <div class='row'>
                     <div class='col-md-6 text-center'>
-                        <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video1}' frameborder='0' allowfullscreen></iframe>
+                        <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video1}' allowfullscreen></iframe>
                         <button class='btn btn-success mt-2' onclick='vote("${video1}", "${video2}")'>Vote</button>
                     </div>
                     <div class='col-md-6 text-center'>
-                        <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video2}' frameborder='0' allowfullscreen></iframe>
+                        <iframe width='100%' height='315' src='https://www.youtube.com/embed/${video2}' allowfullscreen></iframe>
                         <button class='btn btn-success mt-2' onclick='vote("${video2}", "${video1}")'>Vote</button>
                     </div>
                 </div>`;
